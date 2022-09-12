@@ -3,41 +3,55 @@
     <div class="d-flex justify-content-center align-items-center">
 
       <div class="limiter">
+        <!-- de momdento todo se encuentra por medio de templete form, y no de forma reactiva-->
         <div class="container-login100">
             <div class="wrap-login100 p-t-50 p-b-90">
-                <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="OnSubmit()">
+                <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="OnSubmit(registerForm)"
+                #registerForm="ngForm">
 
                     <span class="login100-form-title p-b-51">
                         Crear nueva cuenta
                     </span>
 
-                    <!-- <span class="text-danger">El correo es obligatorio</span> -->
+                   <span class="text-danger animated fadeIn"
+                   *ngIf="registerForm.submitted && registerForm.controls['email'].errors">
+                   El correo es obligatorio</span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100"
-                               type="text"
+                               type="email"
                                name="email"
                                [(ngModel)]="user.email"
-                               placeholder="Email">
+                               placeholder="Email"
+                               required
+                               email>
 
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- <span class="text-danger">El nombre es obligatorio</span> -->
+                    <span class="text-danger animated fadeIn"
+                    *ngIf="registerForm.submitted && registerForm.controls['name'].errors">
+                    El nombre es obligatorio</span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100"
                                type="text"
-                               name="nombre"
+                               name="name"
                                [(ngModel)]="user.name"
+                               minlength="2"
+                               required
                                placeholder="Nombre y apellidos">
 
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- <span class="text-danger">La contraseña debe de ser más de 6 letras</span> -->
-                    <div class="wrap-input100 m-b-16" data-validate = "Password is required">
+                    <span class="text-danger animated fadeIn"
+                    *ngIf="registerForm.submitted && registerForm.controls['password'].errors">
+                      La contraseña debe de ser más de 6 letras</span>
+                    <div class="wrap-input100 m-b-16" >
                         <input class="input100"
                                type="password"
-                               name="pass"
+                               name="password"
+                               minlength="6"
+                               required
                                [(ngModel)]="user.password"
                                placeholder="Password">
                         <span class="focus-input100"></span>
