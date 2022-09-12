@@ -1,31 +1,42 @@
-<div class="container">
+<div class="container animated fadeInLeft">
   <div class="row">
     <div class="d-flex justify-content-center align-items-center">
 
       <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100 p-t-50 p-b-90">
-                <form class="login100-form validate-form flex-sb flex-w">
+                <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="logIn(loginForm)"
+                #loginForm="ngForm">
 
                     <span class="login100-form-title p-b-51">
                         Login
                     </span>
 
-                    <!-- <span class="text-danger">El correo es obligatorio</span> -->
+                    <span class="text-danger animated fadeIn"
+                    *ngIf="loginForm.submitted && loginForm.controls['email']?.errors">
+                    El correo es obligatorio</span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100"
-                               type="text"
-                               name="username"
-                               placeholder="Username">
+                               type="email"
+                               name="email"
+                               [(ngModel)]="user.email"
+                               placeholder="E-mail"
+                               required
+                               email>
 
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- <span class="text-danger">La contraseña debe de ser más de 6 letras</span> -->
+                    <span class="text-danger animated fadeIn"
+                    *ngIf="loginForm.submitted && loginForm.controls['password']?.errors">
+                      La contraseña debe de ser más de 6 letras</span>
                     <div class="wrap-input100 m-b-16" data-validate = "Password is required">
                         <input class="input100"
                                type="password"
-                               name="pass"
+                               name="password"
+                               minlength="6"
+                               required
+                               [(ngModel)]="user.password"
                                placeholder="Password">
                         <span class="focus-input100"></span>
                     </div>
@@ -39,7 +50,7 @@
                         </div>
 
                         <div>
-                            <a routerLink="/registro" class="txt1">
+                            <a routerLink="/new" class="txt1">
                                 ¿No tienes cuenta?
                             </a>
                         </div>
