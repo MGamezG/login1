@@ -36,7 +36,12 @@ export class AuthService {
       })
     );
   }
-  logout(){}
+  /**
+   * salir de la session
+   */
+  logout(){
+    sessionStorage.removeItem('token')
+  }
 
   /**
    * crear un nuevo usuario
@@ -60,11 +65,19 @@ export class AuthService {
    //const url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]'
   }
 
+  /**
+   * almacena el token en el storage
+   * @param idToken
+   */
   saveToken(idToken:string){
     this.token=idToken;
     sessionStorage.setItem('token',idToken)
   }
 
+  /**
+   * lee el token almacenado en el storage
+   * @returns
+   */
   readToken(){
     if(sessionStorage.getItem('token')){
       this.token=sessionStorage.getItem('token')
@@ -73,6 +86,10 @@ export class AuthService {
     }
     return this.token
   }
+  /**
+   * valida si esta autenticado
+   * @returns token
+   */
   isAuthenticated():boolean{
     return this.token.length>2
   }
