@@ -71,7 +71,11 @@ export class AuthService {
    */
   saveToken(idToken:string){
     this.token=idToken;
-    sessionStorage.setItem('token',idToken)
+    sessionStorage.setItem('token',idToken);
+
+    let hoy=new Date()
+    hoy.setSeconds(3600);
+    sessionStorage.setItem('expira',hoy.getTime().toString())
   }
 
   /**
@@ -80,6 +84,7 @@ export class AuthService {
    */
   readToken(){
     if(sessionStorage.getItem('token')){
+
       this.token=sessionStorage.getItem('token')
     }else{
       this.token='';
@@ -91,6 +96,19 @@ export class AuthService {
    * @returns token
    */
   isAuthenticated():boolean{
-    return this.token.length>2
+    if (this.token.length<2) {
+     return false
+    }
+    const expiration=Number(sessionStorage.getItem('expira'))
+    const expirationDate=new Date()
+    expirationDate.setTime(expiration)
+
+    if (expirationDate>new Date()) {
+      return true
+    }
+    else{
+      return false
+    }
+    // return this.token.length>2
   }
 }
