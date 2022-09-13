@@ -73,4 +73,7 @@ export class AuthService {
     }
     return this.token
   }
+  isAuthenticated():boolean{
+    return this.token.length>2
+  }
 }
