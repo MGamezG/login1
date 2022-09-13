@@ -4,7 +4,7 @@ import { UserModel } from './../../models/user.model';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { timeout } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,18 @@ export class LoginComponent implements OnInit {
   constructor(private authService:AuthService,
               private router:Router) { }
   user:UserModel = new UserModel()
+  rememberMe:boolean=false
   ngOnInit(): void {
+    if(sessionStorage.getItem('email')){
+      this.user.email=sessionStorage.getItem('email')
+    }
   }
+
+  /**
+   * logear para acceder al home
+   * @param form
+   * @returns
+   */
   logIn(form: NgForm) {
     if (form.invalid) {
       return;
@@ -41,6 +51,9 @@ export class LoginComponent implements OnInit {
           //   text:'ok',
           // });
           Swal.close()
+          if (this.rememberMe=true) {
+            sessionStorage.setItem('email',this.user.email)
+          }
           this.router.navigate(['/home'])
         },
         (errorResponse)=>{

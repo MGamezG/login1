@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   user!:UserModel;
-
+  rememberMe:boolean=false
   constructor(private authService:AuthService,
               private router:Router) { }
 
@@ -43,6 +43,9 @@ export class RegisterComponent implements OnInit {
       (response:any)=>{
         console.log(response)
         Swal.close()
+        if (this.rememberMe=true) {
+          sessionStorage.setItem('email',this.user.email)
+        }
         this.router.navigate(['/home'])
       },
       (errorResponse)=>{
