@@ -1,6 +1,7 @@
 import { UserModel } from './../../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +12,29 @@ export class AuthService {
   ApiKey='AIzaSyBHA7jzYzAcV7ZkUOOWt1oSR3vjy5tLgsc'
 
   constructor(private http:HttpClient) { }
-  login(user:UserModel){}
-  logout(){}
-  getUsers(){
-    const url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]'
+  /**
+   * optener un usuario
+   * @param user
+   * @returns
+   */
+  login(user:UserModel):Observable<any>{
+    const authData={
+      email:user.email,
+      password:user.password,
+      returnSecureToke:true
+    }
+    //const url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]'
+
+    return this.http.post(`${this.generalUrl}accounts:signInWithPassword?key=${this.ApiKey}`,authData)
   }
+  logout(){}
 
   /**
    * crear un nuevo usuario
    * @param user
    * @returns
    */
-  postUser(user:UserModel){
+  postUser(user:UserModel):Observable<any>{
     const authData={
       email:user.email,
       password:user.password,
